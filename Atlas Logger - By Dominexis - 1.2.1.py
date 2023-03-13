@@ -24,13 +24,15 @@ if not (
 
 # Initialize variables
 
-ATLAS_LOGGER_VERSION = "1.2.0"
+ATLAS_LOGGER_VERSION = "1.2.1"
 PROGRAM_PATH = Path(__file__).parent
 PACK_FORMAT = 12
 
 class State(Enum):
-    """Enumeration which stores the IDs of the program states.\n
-    Using plain strings to store these sorts of values risks typos breaking the system.\n
+    """Enumeration which stores the IDs of the program states.
+
+    Using plain strings to store these sorts of values risks typos breaking the system.
+
     An enumeration ensures that the values are accurate because the IDE can flag typos."""
 
     MAIN_MENU = "main_menu"
@@ -43,8 +45,10 @@ class State(Enum):
     EXIT = "exit"
 
 class FolderMode(Enum):
-    """Enumeration which stores the possible values of the folder mode.\n
-    Using plain strings to store these sorts of values risks typos breaking the system.\n
+    """Enumeration which stores the possible values of the folder mode.
+
+    Using plain strings to store these sorts of values risks typos breaking the system.
+
     An enumeration ensures that the values are accurate because the IDE can flag typos."""
 
     SINGLES = "Singles"
@@ -55,7 +59,8 @@ class FolderMode(Enum):
 # Define program class
 
 class Program:
-    """The main class which runs the program.\n
+    """The main class which runs the program.
+
     Most of the program is handled by a single class so that object variables
     can be accessed by the wide array of functions without having to make global variable calls."""
 
@@ -68,18 +73,18 @@ class Program:
         "pack_directory"
     )
 
-    # State of the program
     state: State
-    # Folder mode, determines whether it lists off folders or individual files
+    """State of the program."""
     folder_mode: FolderMode
-    # Message to display on the terminal
+    """Folder mode, determines whether it lists off folders or individual files."""
     message: str
-    # Name of the resource pack
+    """Message to display on the terminal."""
     resource_pack_file_name: str
-    # Whether the user is fixing the pack by name or by list
+    """Name of the resource pack."""
     pack_entry_type: State
-    # Full directory of the resource pack
+    """Whether the user is fixing the pack by name or by list."""
     pack_directory: Path
+    """Full directory of the resource pack."""
 
     def __init__(self):
         STATE_HANDLER = {
@@ -352,6 +357,8 @@ class Program:
         textures = self.get_texture_list()
 
         # Create atlas file
+        if (self.pack_directory / "assets" / "minecraft" / "atlases" / "blocks.json").exists():
+            os.remove(self.pack_directory / "assets" / "minecraft" / "atlases" / "blocks.json")
         if textures:
             self.create_atlas_file(textures)
 
