@@ -5,7 +5,8 @@ import json
 import shutil
 import sys
 from pathlib import Path
-from enum import Enum
+from enum import Enum,auto
+from dataclasses import dataclass
 
 
 
@@ -35,14 +36,17 @@ class State(Enum):
 
     An enumeration ensures that the values are accurate because the IDE can flag typos."""
 
-    MAIN_MENU = "main_menu"
-    SETTINGS = "settings"
-    SETTINGS_FOLDER_MODE = "settings_folder_mode"
-    RESOURCE_PACK_MENU = "resource_pack_menu"
-    RESOURCE_PACK_NAME = "resource_pack_name"
-    RESOURCE_PACK_LIST = "resource_pack_list"
-    FIX_RESOURCE_PACK = "fix_resource_pack"
-    EXIT = "exit"
+    def _generate_next_value_(name:str,start:int,count:int,last_values):
+        return name.lower()
+
+    MAIN_MENU = auto()
+    SETTINGS = auto()
+    SETTINGS_FOLDER_MODE = auto()
+    RESOURCE_PACK_MENU = auto()
+    RESOURCE_PACK_NAME = auto()
+    RESOURCE_PACK_LIST = auto()
+    FIX_RESOURCE_PACK = auto()
+    EXIT = auto()
 
 class FolderMode(Enum):
     """Enumeration which stores the possible values of the folder mode.
@@ -51,27 +55,22 @@ class FolderMode(Enum):
 
     An enumeration ensures that the values are accurate because the IDE can flag typos."""
 
-    SINGLES = "Singles"
-    FOLDERS = "Folders"
+    def _generate_next_value_(name:str,start:int,count:int,last_values):
+        return name.capitalize()
+
+    SINGLES = auto()
+    FOLDERS = auto()
 
 
 
 # Define program class
-
+@dataclass(slots=True,init=False)
 class Program:
     """The main class which runs the program.
 
     Most of the program is handled by a single class so that object variables
     can be accessed by the wide array of functions without having to make global variable calls."""
 
-    __slots__ = (
-        "state",
-        "folder_mode",
-        "message",
-        "resource_pack_file_name",
-        "pack_entry_type",
-        "pack_directory"
-    )
 
     state: State
     """State of the program."""
